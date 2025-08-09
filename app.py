@@ -5,9 +5,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
-st.set_page_config(page_title="💳 Fraud Detection App", layout="wide")
+st.set_page_config(page_title=" Fraud Detection App", layout="wide")
 
-# -- HEADER UI --
+
 st.markdown("""
     <style>
     .main-container {
@@ -33,11 +33,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Header
+
 st.markdown('<div class="header">🚨 Credit Card Fraud Detection System</div>', unsafe_allow_html=True)
 st.markdown('<p class="subheader">📤 Upload your CSV transaction file and detect fraudulent activities in real-time.</p>', unsafe_allow_html=True)
 
-# -- FILE UPLOAD --
+
 uploaded_file = st.file_uploader("📤 Upload CSV File", type=["csv"])
 
 if uploaded_file:
@@ -49,7 +49,7 @@ if uploaded_file:
         st.success("✅ File uploaded successfully!")
         st.dataframe(df.head(10), use_container_width=True)
 
-        # -- DATA BALANCING --
+       
         legal = df[df['Class'] == 0]
         fraud = df[df['Class'] == 1]
         sample_legal = legal.sample(n=len(fraud), random_state=42)
@@ -60,12 +60,12 @@ if uploaded_file:
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        # -- MODEL TRAINING --
+      
         clf = RandomForestClassifier(n_estimators=100, random_state=42)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
 
-        st.markdown("### 📈 Model Performance:")
+        st.markdown("###  Model Performance:")
         st.text(classification_report(y_test, y_pred))
 
         st.markdown("### 🔍 Predict on All Uploaded Data:")
@@ -77,3 +77,4 @@ if uploaded_file:
         st.write(frauds_detected.head(10))
 
         st.download_button("⬇ Download Fraud Results as CSV", frauds_detected.to_csv(index=False), file_name="fraud_predictions.csv")
+
